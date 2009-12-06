@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="column">
+		<xs:complexType>
+			<xs:attribute name="primaryKey" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="true" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="name" type="xs:string" use="required" />
+			<xs:attribute name="size" type="xs:string" use="optional" />
+			<xs:attribute name="type" type="xs:string" use="required" />
+			<xs:attribute name="description" type="xs:string" use="optional" />
+			<xs:attribute name="required" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="true" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="autoIncrement" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="true" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="default" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="database">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="table" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:NMTOKEN" use="required" />
+			<xs:attribute name="defaultJavaNamingMethod" type="xs:NMTOKEN" use="optional" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="foreign-key">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="reference" />
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="optional" />
+			<xs:attribute name="onDelete" type="xs:NMTOKEN" use="required" />
+			<xs:attribute name="onUpdate" type="xs:NMTOKEN" use="required" />
+			<xs:attribute name="foreignTable" type="xs:NMTOKEN" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="reference">
+		<xs:complexType>
+			<xs:attribute name="local" type="xs:NMTOKEN" use="required" />
+			<xs:attribute name="foreign" type="xs:NMTOKEN" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="table">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="column" />
+				<xs:element ref="foreign-key" />
+				<xs:element ref="unique" />
+				<xs:element ref="index" />
+			</xs:choice>
+			<xs:attribute name="name" type="xs:ID" use="required" />
+			<xs:attribute name="description" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="unique">
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:element ref="unique-column" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="unique-column">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:NMTOKEN" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="index">
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:element ref="index-column" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="index-column">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:NMTOKEN" use="required" />
+		</xs:complexType>
+	</xs:element>
+	
+</xs:schema>

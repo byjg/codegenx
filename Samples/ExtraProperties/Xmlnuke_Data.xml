@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extraProperties>
+
+	<!-- $classname.$tablename.$xsl -->
+
+	<allAttributes saveTo="data\%xsl" filename="table_%tablename.lang.anydata.xml">
+		<attribute name="package" defaultValue="Loja" />
+	</allAttributes>
+
+	<!--table name="account_trial_balance">
+		<attribute name="package" value="Accounting" />
+	</table-->
+
+	
+</extraProperties>

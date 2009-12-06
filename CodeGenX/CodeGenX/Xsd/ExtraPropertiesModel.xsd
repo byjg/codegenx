@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<xs:element name="extraProperties">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="allAttributes" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="table" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="table">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="attribute" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required" />
+			<xs:attribute name="saveTo" type="xs:string" />
+			<xs:attribute name="filename" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="attribute">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" use="required" />
+			<xs:attribute name="value" type="xs:string" use="optional" />
+			<xs:attribute name="defaultValue" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="allAttributes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="attribute" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="saveTo" type="xs:string" />
+			<xs:attribute name="filename" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

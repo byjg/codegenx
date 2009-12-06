@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<extraProperties>
+
+	<!-- $classname.$tablename.$xsl -->
+
+	<allAttributes saveTo="Module\%package\%xsl" filename="%classname%xsl.cs">
+		<attribute name="package" defaultValue="_MUSTDEFINE_" />
+	</allAttributes>
+
+	<table name="member" saveTo="Module\Member\%xsl" filename="%classname%xsl.cs">
+		<attribute name="package" value="Member" />
+	</table>
+	<table name="member_address">
+	</table>
+	<table name="member_category">
+	</table>
+	<table name="member_transaction">
+	</table>
+	<table name="member_phone">
+	</table>
+	<table name="beneficiary">
+	</table>
+	<table name="company">
+	</table>
+	<table name="contribution_history">
+	</table>
+	<table name="relationship">
+	</table>
+	<table name="retirement_plan">
+	</table>
+	<table name="phone_type">
+	</table>
+	<table name="beneficiary_address">
+	</table>
+	<table name="beneficiary_phone">
+	</table>
+	<table name="fund_manager">
+	</table>
+	<table name="fund_manager_contact">
+	</table>
+	<table name="fund_manager_contact_phone">
+	</table>
+	<table name="fund">
+	</table>
+	<table name="investment">
+	</table>
+	<table name="investment_type">
+	</table>
+	<table name="investment_history">
+	</table>
+	<table name="fund_history">
+	</table>
+	<table name="fund_statement">
+	</table>
+	<table name="fund_statement_history">
+	</table>
+	<table name="fund_statement_type">
+	</table>
+	<table name="bank">
+	</table>
+	<table name="acc_type">
+	</table>
+	<table name="acc_trn_type">
+	</table>
+	<table name="account">
+	</table>
+	<table name="account_transaction">
+	</table>
+	<table name="account_transaction_history">
+	</table>
+	<table name="user">
+	</table>
+	<table name="group">
+	</table>
+	<table name="group_user">
+	</table>
+	<table name="module">
+	</table>
+	<table name="module_group">
+	</table>
+	<table name="member_statement">
+	</table>
+	<table name="member_statement_type">
+	</table>
+	<table name="member_statement_history">
+	</table>
+	<table name="member_distribution">
+	</table>
+	<table name="member_distribution_history">
+	</table>
+	<table name="statement_irs_code">
+	</table>
+	<table name="withdraw_detail">
+	</table>
+	<table name="transaction">
+	</table>
+	<table name="transaction_type">
+	</table>
+	<table name="ticket">
+	</table>
+	<table name="action">
+	</table>
+	<table name="action_type">
+	</table>
+	<table name="log_data">
+	</table>
+	<table name="error_data">
+	</table>
+	<table name="document_file_type">
+	</table>
+	<table name="document_file">
+	</table>
+	<table name="irs_code">
+	</table>
+	<table name="system_parameter">
+	</table>
+	<table name="ult">
+	</table>
+	<table name="salary_table">
+	</table>
+
+
+</extraProperties>
