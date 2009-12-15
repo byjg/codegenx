@@ -202,7 +202,7 @@ class <xsl:value-of select="$ClassName" />DB extends <xsl:value-of select="$pack
 			//BeforeInsert]}@@@
 
 			$sql = $this->getSQLHelper()->generateSQL(<xsl:value-of select="$ClassName" />Model::__TABLENAME__, $campos, $param, SQLType::SQL_INSERT, "");
-			return $this->inserirSql($sql, $param);
+			return $this->executeSql($sql, $param, true);
 		}
 		// Atualiza
 		else 
