@@ -135,6 +135,7 @@ namespace CodeGenX
         {
             if (dlgSaveProject.ShowDialog() == DialogResult.OK)
             {
+				string baseDir = System.IO.Path.GetDirectoryName(dlgSaveProject.FileName);
 
                 XmlDocument document = new XmlDocument();
                 document.LoadXml("<codegenx />");
@@ -144,7 +145,7 @@ namespace CodeGenX
                 XmlNode torque = document.CreateElement("torqueXml");
                 if (this._xmlTorque != null)
                 {
-                    XmlNode torquetxt = document.CreateTextNode(this.lblXml.Text);
+                    XmlNode torquetxt = document.CreateTextNode(this.GetRelativePath(baseDir, this.lblXml.Text));
                     torque.AppendChild(torquetxt);
                 }
                 generator.AppendChild(torque);
@@ -158,7 +159,7 @@ namespace CodeGenX
                     xsl.AppendChild(xslitem);
 
                     XmlAttribute node = document.CreateAttribute("name");
-                    node.Value = xslTxt;
+                    node.Value = this.GetRelativePath(baseDir, xslTxt);
                     xslitem.Attributes.Append(node);
                 }
 
@@ -166,7 +167,7 @@ namespace CodeGenX
                 XmlNode extra = document.CreateElement("extraProperties");
                 if (this._xmlExtraProperties != null)
                 {
-                    XmlNode extratxt = document.CreateTextNode(this.txtExtraProperties.Text);
+                    XmlNode extratxt = document.CreateTextNode(this.GetRelativePath(baseDir, this.txtExtraProperties.Text));
                     extra.AppendChild(extratxt);
                 }
                 generator.AppendChild(extra);
@@ -175,7 +176,7 @@ namespace CodeGenX
                 XmlNode saveTo = document.CreateElement("saveTo");
                 if (this.txtSaveTo.Text != "")
                 {
-                    XmlNode saveToTxt = document.CreateTextNode(this.txtSaveTo.Text);
+                    XmlNode saveToTxt = document.CreateTextNode(this.GetRelativePath(baseDir, this.txtSaveTo.Text));
                     saveTo.AppendChild(saveToTxt);
                 }
                 generator.AppendChild(saveTo);
@@ -201,37 +202,78 @@ namespace CodeGenX
                 document.Load(dlgOpenProject.FileName);
                 XmlNode generator = document.DocumentElement;
 
+				string baseDir = System.IO.Path.GetDirectoryName(dlgOpenProject.FileName);
+
                 // Load Torque XML
                 XmlNode torque = generator.SelectSingleNode("torqueXml");
                 if (torque != null)
                 {
-                    this.LoadXmlTables(torque.InnerText);
+                    this.LoadXmlTables(this.GetAbsolutePath(baseDir, torque.InnerText));
                 }
 
                 // Load XSL
                 XmlNodeList xslList = generator.SelectNodes("xsl/item");
                 foreach (XmlNode node in xslList)
                 {
-                    lstXsl.Items.Add(node.Attributes["name"].Value);
+                    lstXsl.Items.Add(this.GetAbsolutePath(baseDir, node.Attributes["name"].Value));
                 }
 
                 // Load Extra Properties
                 XmlNode extra = generator.SelectSingleNode("extraProperties");
                 if (extra != null)
                 {
-                    this.LoadExtraProperties(extra.InnerText);
+                    this.LoadExtraProperties(this.GetAbsolutePath(baseDir, extra.InnerText));
                 }
 
                 // Load SaveTo
                 XmlNode saveTo = generator.SelectSingleNode("saveTo");
                 if (saveTo != null)
                 {
-                    txtSaveTo.Text = saveTo.InnerText;
+                    txtSaveTo.Text = this.GetAbsolutePath(baseDir, saveTo.InnerText);
                 }
             }
 
         }
 
+		private string GetAbsolutePath(string baseDir, string path)
+		{
+			if ((path[1] == ':') || (path[0] == '/'))
+				return path;
+			else
+			{
+				baseDir += "/";
+				return System.IO.Path.GetFullPath(baseDir + path);
+			}
+		}
 
-    }
+		private string GetRelativePath(string baseDir, string path)
+		{
+			baseDir = baseDir.Replace('\\', '/');
+			path = path.Replace('\\', '/');
+
+			string[] baseParts = baseDir.Split('/');
+			string[] pathParts = path.Split('/');
+
+			int i = 0;
+
+			while ((i < baseParts.Length) && (i < pathParts.Length) && (baseParts[i] == pathParts[i]))
+			{
+				i++;
+			}
+
+			string result = "";
+			for (int j = i; j < baseParts.Length; j++)
+			{
+				result += "../";
+			}
+
+			for (int j = i; j < pathParts.Length; j++)
+			{
+				result += pathParts[j] + (j + 1 == pathParts.Length ? "" : "/");
+			}
+
+			return result;
+		}
+
+	}
 }
