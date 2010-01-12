@@ -21,6 +21,7 @@
 &lt;anydataset&gt;
    &lt;row&gt;
       &lt;field name="LANGUAGE"&gt;en-us&lt;/field&gt;
+      &lt;field name="TABLENAME"&gt;<xsl:value-of select="$tablename" />&lt;/field&gt;
 	<xsl:for-each select="column">
 		<xsl:variable name="FieldName">
 			<xsl:call-template name="upperCase">
@@ -34,6 +35,7 @@
    &lt;/row&gt;
    &lt;row&gt;
       &lt;field name="LANGUAGE"&gt;pt-br&lt;/field&gt;
+      &lt;field name="TABLENAME"&gt;<xsl:value-of select="$tablename" />&lt;/field&gt;
 	<xsl:for-each select="column">
 		<xsl:variable name="FieldName">
 			<xsl:call-template name="upperCase">

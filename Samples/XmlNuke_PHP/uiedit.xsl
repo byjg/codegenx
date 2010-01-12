@@ -41,31 +41,37 @@ class <xsl:value-of select="$ClassName" />UIEdit extends <xsl:value-of select="$
 	protected $_myWords;
 
 	/**
-	 * @var FormCollection
-	 */
-	protected $_form;
-
-	/**
 	 * @var <xsl:value-of select="$ClassName" />Model
 	 */
 	protected $_model;
 
 	/**
 	 * @param Context $context
-	 * @param FormCollection $form
 	 * @param LanguageCollection $myWords
 	 * @param <xsl:value-of select="$ClassName" />Model $model
 	 */
-	public function __construct($context, $form, $myWords, $model = null)
+	public function __construct($context, $model = null, $myWords = null)
 	{
 		$this->_context = $context;
-		$this->_form = $form;
+		if ($myWords == null)
+		{
+			$myWords = LanguageFactory::GetLanguageCollection($this->_context, LanguageFileTypes::OBJECT, "table_<xsl:value-of select="$tablename" />");
+		}
 		$this->_myWords = $myWords;
-		$this->_model = $model;
 		if ($model == null)
 		{
 			$model = new <xsl:value-of select="$ClassName" />Model();
 		}
+		$this->_model = $model;
+	}
+	
+	/**
+	 * Devolve a coleção de linguagem utilizada no sistema.
+	 * @return LanguageCollection
+	 */
+	public function getLanguageCollection()
+	{
+		return $this->_myWords;
 	}
 
 	<xsl:for-each select="column">
@@ -85,7 +91,7 @@ class <xsl:value-of select="$ClassName" />UIEdit extends <xsl:value-of select="$
 	 */
 	public function textBox<xsl:value-of select="$FieldName" />($readonly = false, $size = <xsl:if test="@size and not(contains(@size, ','))"><xsl:value-of select="@size" /></xsl:if><xsl:if test="not(@size and not(contains(@size, ',')))">20</xsl:if>)
 	{
-		$obj = new XmlInputTextBox($this->myWords->Value("<xsl:value-of select="$FieldUpper" />"), <xsl:value-of select="$ClassName" />Model::<xsl:value-of select="$FieldUpper" />, $model->get<xsl:value-of select="$FieldName" />(), $size);
+		$obj = new XmlInputTextBox($this->_myWords->Value("<xsl:value-of select="$FieldUpper" />"), <xsl:value-of select="$ClassName" />Model::<xsl:value-of select="$FieldUpper" />, $this->_model->get<xsl:value-of select="$FieldName" />(), $size);
 		$obj->setReadOnlyDelimeters("");
 		<xsl:if test="@required='true'">
 		$obj->setRequired(true);
@@ -125,7 +131,7 @@ class <xsl:value-of select="$ClassName" />UIEdit extends <xsl:value-of select="$
 	 */
 	public function easyList<xsl:value-of select="$FieldName" />($array, $readonly = false)
 	{
-		$obj = new XmlEasyList(EasyListType::SELECTLIST, <xsl:value-of select="$ClassName" />Model::<xsl:value-of select="$FieldUpper" />, $this->myWords->Value("<xsl:value-of select="$FieldUpper" />"), $array, $leitorModel->getEstado());
+		$obj = new XmlEasyList(EasyListType::SELECTLIST, <xsl:value-of select="$ClassName" />Model::<xsl:value-of select="$FieldUpper" />, $this->_myWords->Value("<xsl:value-of select="$FieldUpper" />"), $array, $this->_model->get<xsl:value-of select="$FieldName" />());
 		$obj->setReadOnlyDelimeters("");
 		$obj->setReadOnly($readonly);
 		<xsl:if test="//table[@name=$tablename]/column[@name=$Field]/@required='true'">$obj->setRequired(true);</xsl:if>
