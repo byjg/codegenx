@@ -31,6 +31,15 @@
 class <xsl:value-of select="$ClassName" />DB extends <xsl:value-of select="$package" />BaseDBAccess
 {
 
+	/**
+	 * Construtor
+	 * @param Context $context
+	 */
+	public function __construct($context)
+	{
+		parent::__construct($context);
+	}
+	
 	////// Primary Keys ///////////////////////////////////////////////
 	
 	/**
