@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE xsl:stylesheet [
 	<!ENTITY lower "abcdefghijklmnopqrstuvwxyz">
 	<!ENTITY upper "ABCDEFGHIJKLMNOPQRSTUVWXYZ">
@@ -98,12 +98,16 @@ class <xsl:value-of select="$ClassName" />DB extends <xsl:value-of select="$pack
 		</xsl:variable>
 
 	/**
-	 * Obter um coleção de <xsl:value-of select="$ClassName" />Model por <xsl:value-of select="@foreignTable"/>
+	 * Obter um coleção de <xsl:value-of select="$ClassName" />Model por <xsl:value-of select="@local"/>
 	 * <xsl:for-each select="reference"><xsl:variable name="foreign"><xsl:value-of select="@foreign"/></xsl:variable>
 	 * @param <xsl:value-of select="//table[@name=$foreignTable]/column[@name=$foreign]/@type"/> $<xsl:value-of select="@local"/></xsl:for-each>
 	 * @return IIterator
 	 */
-	public function obterPor<xsl:value-of select="$ForeignClass"/>(<xsl:for-each select="reference"><xsl:if test="position()!=1">, </xsl:if>$<xsl:value-of select="@local"/></xsl:for-each>)
+	public function obterPor<xsl:for-each select="reference">
+		<xsl:call-template name="upperCase">
+			<xsl:with-param name="textToTransform" select="@local" />
+		</xsl:call-template>
+	</xsl:for-each>(<xsl:for-each select="reference"><xsl:if test="position()!=1">, </xsl:if>$<xsl:value-of select="@local"/></xsl:for-each>)
 	{
 		$param = array();
 
@@ -115,7 +119,7 @@ class <xsl:value-of select="$ClassName" />DB extends <xsl:value-of select="$pack
 			$param['<xsl:value-of select="@local"/>'] = $<xsl:value-of select="@local"/>;
 		}
 		</xsl:for-each>
-		$it = $this->getIterator($sql, $param);		
+		$it = $this->getIterator($sql, $param);
 		
 		return $it;
 	}

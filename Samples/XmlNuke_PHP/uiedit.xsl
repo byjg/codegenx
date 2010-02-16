@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE xsl:stylesheet [
 	<!ENTITY lower "abcdefghijklmnopqrstuvwxyz">
 	<!ENTITY upper "ABCDEFGHIJKLMNOPQRSTUVWXYZ">
@@ -30,6 +30,7 @@
 
 class <xsl:value-of select="$ClassName" />UIEdit extends <xsl:value-of select="$package" />BaseUIEdit
 {
+	// &lt;editor-fold defaultstate="collapsed" desc="Properties"&gt;
 	/**
 	 * @var Context
 	 */
@@ -48,6 +49,7 @@ class <xsl:value-of select="$ClassName" />UIEdit extends <xsl:value-of select="$
 	protected $_readOnlyDelimiter = "  ";
 	
 	protected $_dateFormat = "";
+	// &lt;/editor-fold&gt;
 
 	/**
 	 * @param Context $context
@@ -71,6 +73,7 @@ class <xsl:value-of select="$ClassName" />UIEdit extends <xsl:value-of select="$
 		$this->_model = $model;
 	}
 	
+	// &lt;editor-fold defaultstate="collapsed" desc="Default Getters and Setters"&gt;
 	/**
 	 * Devolve a coleção de linguagem utilizada no sistema.
 	 * @return LanguageCollection
@@ -114,6 +117,7 @@ class <xsl:value-of select="$ClassName" />UIEdit extends <xsl:value-of select="$
 	{
 		return $this->_dateFormat = $value;
 	}
+	// &lt;/editor-fold&gt;
 
 	<xsl:for-each select="column">
 		<xsl:variable name="FieldName">
@@ -124,13 +128,24 @@ class <xsl:value-of select="$ClassName" />UIEdit extends <xsl:value-of select="$
 		<xsl:variable name="FieldUpper">
 			<xsl:value-of select="translate(@name, '&lower;', '&upper;')" />
 		</xsl:variable>
+		<xsl:variable name="ViewSize">
+		<xsl:choose>
+			<xsl:when test="contains(@type, 'date') or contains(@type, 'DATE')">10</xsl:when>
+			<xsl:when test="@size and not(contains(@size, ','))">
+				<xsl:if test="@size &lt; 40"><xsl:value-of select="@size" /></xsl:if>
+				<xsl:if test="not(@size &lt; 40)">40</xsl:if>
+			</xsl:when>
+			<xsl:otherwise>5</xsl:otherwise>
+		</xsl:choose>
+		</xsl:variable>
+	// &lt;editor-fold defaultstate="collapsed" desc="Métodos de <xsl:value-of select="@name" />"&gt;
 	/**
 	 * Obter um TextBox de <xsl:value-of select="$FieldName" />
-	 * @param integer $size
 	 * @param bool $readonly
+	 * @param integer $size
 	 * @return XmlInputTextBox
 	 */
-	public function textBox<xsl:value-of select="$FieldName" />($readonly = false, $size = <xsl:if test="@size and not(contains(@size, ','))"><xsl:value-of select="@size" /></xsl:if><xsl:if test="not(@size and not(contains(@size, ',')))">20</xsl:if>)
+	public function textBox<xsl:value-of select="$FieldName" />($readonly = false, $size = <xsl:value-of select="$ViewSize" />)
 	{
 		$obj = new XmlInputTextBox($this->_myWords->Value("<xsl:value-of select="$FieldUpper" />"), <xsl:value-of select="$ClassName" />Model::<xsl:value-of select="$FieldUpper" />, $this->_model->get<xsl:value-of select="$FieldName" />(), $size);
 		$obj->setReadOnlyDelimeters($this->getReadonlyDelimiter());
@@ -148,9 +163,7 @@ class <xsl:value-of select="$ClassName" />UIEdit extends <xsl:value-of select="$
 		</xsl:choose>
 
 		return $obj;
-	}
-	
-	
+	}	
 	<xsl:if test="contains(@type, 'date') or contains(@type, 'DATE')">
 	/**
 	 * Obter um InputDateTime de <xsl:value-of select="$FieldName" />
@@ -168,9 +181,50 @@ class <xsl:value-of select="$ClassName" />UIEdit extends <xsl:value-of select="$
 		return $obj;
 	}
 	</xsl:if>
+	/**
+	 * Obter um ProcessPageStateField de <xsl:value-of select="$FieldName" />
+	 * @param bool $visible
+	 * @param bool $required
+	 * @param integer $viewSize
+	 * @return ProcessPageField
+	 */
+	public function processField<xsl:value-of select="$FieldName" />($visible = true, $required = <xsl:if test="@required='true'">true</xsl:if><xsl:if test="not(@required='true')">false</xsl:if>, $viewSize = <xsl:value-of select="$ViewSize" />)
+	{
+		$field = ProcessPageFields::FactoryMinimal("<xsl:value-of select="@name" />", $this->_myWords->Value("<xsl:value-of select="$FieldUpper" />"), $viewSize, $visible, $required);
+		<xsl:if test="@primaryKey and @primaryKey='true'">$field->key = true;
+		</xsl:if>
+		<xsl:if test="@autoIncrement and @autoIncrement='true'">$field->editable = false;
+		</xsl:if>
+		<xsl:if test="not(@autoIncrement and @autoIncrement='true')">$field->editable = true;
+		</xsl:if>
+		<xsl:if test="@size and not(contains(@size, ','))">
+		$field->maxLength = <xsl:value-of select="$ClassName" />Model::<xsl:value-of select="$FieldUpper" />_SIZE;
+		</xsl:if>
+		<xsl:choose>
+			<xsl:when test="contains(@type, 'int') or contains(@type, 'decimal') or contains(@type, 'INT') or contains(@type, 'DECIMAL')">$field->dataType = INPUTTYPE::NUMBER;</xsl:when>
+			<xsl:when test="contains(@type, 'date') or contains(@type, 'DATE')">$field->dataType = INPUTTYPE::DATE;</xsl:when>
+			<xsl:otherwise>$field->dataType = INPUTTYPE::TEXT;</xsl:otherwise>
+		</xsl:choose>
+		return $field;
+	}
+
+	/**
+	 * Obter um EditListField de <xsl:value-of select="$FieldName" />
+	 * @return EditListField
+	 */
+	public function editListField<xsl:value-of select="$FieldName" />()
+	{
+		$field = new EditListField();
+		$field->fieldData = <xsl:value-of select="$ClassName" />Model::<xsl:value-of select="$FieldUpper" />;
+		$field->editlistName = $this->_myWords->Value("<xsl:value-of select="$FieldUpper" />");
+		return $field;
+	}
+	// &lt;/editor-fold&gt;
 	</xsl:for-each>
 
 
+
+	// &lt;editor-fold defaultstate="collapsed" desc="easyList"&gt;
 	<xsl:for-each select="foreign-key">
 		<xsl:variable name="FieldName">
 			<xsl:call-template name="upperCase">
@@ -198,6 +252,7 @@ class <xsl:value-of select="$ClassName" />UIEdit extends <xsl:value-of select="$
 		return $obj;
 	}
 	</xsl:for-each>
+	// &lt;/editor-fold&gt;
 
 	//{@@@[//CustomCode
 	//CustomCode]}@@@
