@@ -66,6 +66,17 @@ class <xsl:value-of select="$ClassName" />DB extends <xsl:value-of select="$pack
 		
 		return $model;
 	}
+	
+	
+	/**
+	 * Obter Todos os Registros
+	 * @returns IIterator
+	 */
+	public function obterTodos()
+	{
+		$sql = $this->baseSQLQuery();
+		return $this->getIterator($sql, $param);
+	}
 
 	////// Protected Functions ///////////////////////////////////////////////
 
