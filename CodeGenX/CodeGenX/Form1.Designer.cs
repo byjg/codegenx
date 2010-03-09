@@ -30,9 +30,9 @@
         {
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.dlgOpenXML = new System.Windows.Forms.OpenFileDialog();
-			this.btnAddXsl = new System.Windows.Forms.Button();
 			this.lstXsl = new System.Windows.Forms.ListBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.linkAddXsl = new System.Windows.Forms.LinkLabel();
 			this.dlgAddXsl = new System.Windows.Forms.OpenFileDialog();
 			this.btnRun = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
@@ -49,10 +49,10 @@
 			this.dlgSaveProject = new System.Windows.Forms.SaveFileDialog();
 			this.dlgOpenProject = new System.Windows.Forms.OpenFileDialog();
 			this.btnNew = new System.Windows.Forms.Button();
-			this.btnOpen = new System.Windows.Forms.Button();
 			this.lstAllTables = new System.Windows.Forms.ListBox();
 			this.lblXml = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.linkOpenTorque = new System.Windows.Forms.LinkLabel();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.groupBox2.SuspendLayout();
@@ -67,25 +67,15 @@
 			this.dlgOpenXML.Filter = "XML|*.xml|All Files|*.*";
 			this.dlgOpenXML.Title = "Open Torque XML";
 			// 
-			// btnAddXsl
-			// 
-			this.btnAddXsl.Location = new System.Drawing.Point(8, 30);
-			this.btnAddXsl.Name = "btnAddXsl";
-			this.btnAddXsl.Size = new System.Drawing.Size(75, 23);
-			this.btnAddXsl.TabIndex = 2;
-			this.btnAddXsl.Text = "Add XSL";
-			this.btnAddXsl.UseVisualStyleBackColor = true;
-			this.btnAddXsl.Click += new System.EventHandler(this.btnAddXsl_Click);
-			// 
 			// lstXsl
 			// 
 			this.lstXsl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.lstXsl.FormattingEnabled = true;
-			this.lstXsl.Location = new System.Drawing.Point(8, 59);
+			this.lstXsl.Location = new System.Drawing.Point(8, 33);
 			this.lstXsl.Name = "lstXsl";
-			this.lstXsl.Size = new System.Drawing.Size(361, 108);
+			this.lstXsl.Size = new System.Drawing.Size(361, 134);
 			this.lstXsl.TabIndex = 5;
 			this.lstXsl.Click += new System.EventHandler(this.lstXsl_Click);
 			// 
@@ -93,14 +83,27 @@
 			// 
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox2.Controls.Add(this.linkAddXsl);
 			this.groupBox2.Controls.Add(this.lstXsl);
-			this.groupBox2.Controls.Add(this.btnAddXsl);
 			this.groupBox2.Location = new System.Drawing.Point(12, 234);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(375, 173);
 			this.groupBox2.TabIndex = 7;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "XSL Template Modifier";
+			// 
+			// linkAddXsl
+			// 
+			this.linkAddXsl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.linkAddXsl.AutoSize = true;
+			this.linkAddXsl.LinkColor = System.Drawing.Color.Navy;
+			this.linkAddXsl.Location = new System.Drawing.Point(273, 16);
+			this.linkAddXsl.Name = "linkAddXsl";
+			this.linkAddXsl.Size = new System.Drawing.Size(96, 13);
+			this.linkAddXsl.TabIndex = 6;
+			this.linkAddXsl.TabStop = true;
+			this.linkAddXsl.Text = "Add XSL Template";
+			this.linkAddXsl.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkAddXsl_LinkClicked);
 			// 
 			// dlgAddXsl
 			// 
@@ -109,9 +112,9 @@
 			// btnRun
 			// 
 			this.btnRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnRun.Location = new System.Drawing.Point(393, 482);
+			this.btnRun.Location = new System.Drawing.Point(393, 459);
 			this.btnRun.Name = "btnRun";
-			this.btnRun.Size = new System.Drawing.Size(108, 23);
+			this.btnRun.Size = new System.Drawing.Size(108, 46);
 			this.btnRun.TabIndex = 15;
 			this.btnRun.Text = "Generate Code";
 			this.btnRun.UseVisualStyleBackColor = true;
@@ -206,7 +209,7 @@
 			this.button3.Name = "button3";
 			this.button3.Size = new System.Drawing.Size(108, 23);
 			this.button3.TabIndex = 13;
-			this.button3.Text = "Load ";
+			this.button3.Text = "Load Project";
 			this.button3.UseVisualStyleBackColor = true;
 			this.button3.Click += new System.EventHandler(this.button3_Click);
 			// 
@@ -217,7 +220,7 @@
 			this.button4.Name = "button4";
 			this.button4.Size = new System.Drawing.Size(108, 23);
 			this.button4.TabIndex = 14;
-			this.button4.Text = "Save";
+			this.button4.Text = "Save Project";
 			this.button4.UseVisualStyleBackColor = true;
 			this.button4.Click += new System.EventHandler(this.button4_Click);
 			// 
@@ -238,19 +241,9 @@
 			this.btnNew.Name = "btnNew";
 			this.btnNew.Size = new System.Drawing.Size(108, 23);
 			this.btnNew.TabIndex = 16;
-			this.btnNew.Text = "New";
+			this.btnNew.Text = "New Project";
 			this.btnNew.UseVisualStyleBackColor = true;
 			this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
-			// 
-			// btnOpen
-			// 
-			this.btnOpen.Location = new System.Drawing.Point(8, 34);
-			this.btnOpen.Name = "btnOpen";
-			this.btnOpen.Size = new System.Drawing.Size(75, 23);
-			this.btnOpen.TabIndex = 1;
-			this.btnOpen.Text = "Open XML";
-			this.btnOpen.UseVisualStyleBackColor = true;
-			this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
 			// 
 			// lstAllTables
 			// 
@@ -258,17 +251,18 @@
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.lstAllTables.FormattingEnabled = true;
-			this.lstAllTables.Location = new System.Drawing.Point(8, 63);
+			this.lstAllTables.Location = new System.Drawing.Point(8, 50);
 			this.lstAllTables.Name = "lstAllTables";
-			this.lstAllTables.Size = new System.Drawing.Size(361, 147);
+			this.lstAllTables.Size = new System.Drawing.Size(361, 160);
 			this.lstAllTables.TabIndex = 3;
 			// 
 			// lblXml
 			// 
-			this.lblXml.AutoSize = true;
-			this.lblXml.Location = new System.Drawing.Point(89, 39);
+			this.lblXml.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.lblXml.Location = new System.Drawing.Point(5, 34);
 			this.lblXml.Name = "lblXml";
-			this.lblXml.Size = new System.Drawing.Size(34, 13);
+			this.lblXml.Size = new System.Drawing.Size(268, 13);
 			this.lblXml.TabIndex = 4;
 			this.lblXml.Text = "lblXml";
 			// 
@@ -277,15 +271,28 @@
 			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox1.Controls.Add(this.linkOpenTorque);
 			this.groupBox1.Controls.Add(this.lblXml);
 			this.groupBox1.Controls.Add(this.lstAllTables);
-			this.groupBox1.Controls.Add(this.btnOpen);
 			this.groupBox1.Location = new System.Drawing.Point(12, 9);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(375, 219);
 			this.groupBox1.TabIndex = 6;
 			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "XML Database Definition";
+			this.groupBox1.Text = "XML Torque Database Definition";
+			// 
+			// linkOpenTorque
+			// 
+			this.linkOpenTorque.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.linkOpenTorque.AutoSize = true;
+			this.linkOpenTorque.LinkColor = System.Drawing.Color.Navy;
+			this.linkOpenTorque.Location = new System.Drawing.Point(280, 34);
+			this.linkOpenTorque.Name = "linkOpenTorque";
+			this.linkOpenTorque.Size = new System.Drawing.Size(89, 13);
+			this.linkOpenTorque.TabIndex = 5;
+			this.linkOpenTorque.TabStop = true;
+			this.linkOpenTorque.Text = "Open Torque File";
+			this.linkOpenTorque.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenTorque_Clicked);
 			// 
 			// pictureBox1
 			// 
@@ -305,7 +312,7 @@
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(100, 18);
 			this.label3.TabIndex = 18;
-			this.label3.Text = "v1.1 ByJG";
+			this.label3.Text = "v1.0 ByJG";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// Form1
@@ -328,6 +335,7 @@
 			this.Text = "CodeGenX - Code Generator based on XML Torque and XSL";
 			this.Load += new System.EventHandler(this.Form1_Load);
 			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
@@ -340,7 +348,6 @@
         #endregion
 
 		private System.Windows.Forms.OpenFileDialog dlgOpenXML;
-		private System.Windows.Forms.Button btnAddXsl;
 		private System.Windows.Forms.ListBox lstXsl;
         private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.OpenFileDialog dlgAddXsl;
@@ -358,13 +365,14 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.SaveFileDialog dlgSaveProject;
         private System.Windows.Forms.OpenFileDialog dlgOpenProject;
-        private System.Windows.Forms.Button btnNew;
-		private System.Windows.Forms.Button btnOpen;
+		private System.Windows.Forms.Button btnNew;
 		private System.Windows.Forms.ListBox lstAllTables;
 		private System.Windows.Forms.Label lblXml;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.LinkLabel linkOpenTorque;
+		private System.Windows.Forms.LinkLabel linkAddXsl;
     }
 }
 

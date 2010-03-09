@@ -22,14 +22,14 @@ namespace CodeGenX
             InitializeComponent();
         }
 
-        private void btnOpen_Click(object sender, EventArgs e)
-        {
-            dlgOpenXML.FileName = "";
-            if (dlgOpenXML.ShowDialog() == DialogResult.OK)
-            {
-                this.LoadXmlTables(dlgOpenXML.FileName);
-            }
-        }
+		private void linkOpenTorque_Clicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			dlgOpenXML.FileName = "";
+			if (dlgOpenXML.ShowDialog() == DialogResult.OK)
+			{
+				this.LoadXmlTables(dlgOpenXML.FileName);
+			}
+		}
 
         protected void LoadXmlTables(string FileName)
         {
@@ -83,14 +83,14 @@ namespace CodeGenX
         }
 
 
-        private void btnAddXsl_Click(object sender, EventArgs e)
-        {
-            dlgAddXsl.FileName = "";
-            if (dlgAddXsl.ShowDialog() == DialogResult.OK)
-            {
-                lstXsl.Items.Add(dlgAddXsl.FileName);
-            }
-        }
+		private void linkAddXsl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			dlgAddXsl.FileName = "";
+			if (dlgAddXsl.ShowDialog() == DialogResult.OK)
+			{
+				lstXsl.Items.Add(dlgAddXsl.FileName);
+			}
+		}
 
         private void Form1_Load(object sender, EventArgs e)
         {

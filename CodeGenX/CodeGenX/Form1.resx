@@ -139,8 +139,8 @@
   <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAGwAAABmCAIAAAChn+P8AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEgAA
-        CxIB0t1+/AAAK2FJREFUeF7tffd7U1eXbuZvuz/M3EnARXLDXe7wESAJkECooblXiqt6sS333nGvuHeM
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDwAA
+        Cw8BkvkDpQAAK2FJREFUeF7tffd7U1eXbuZvuz/M3EnARXLDXe7wESAJkECooblXiqt6sS333nGvuHeM
         CzYGjCtu6mfetfeRMZlk5j6JuB98DyeKkVWOtN+z+nrX9r8JgvDN1+NvIgAQvx5/E4Fv/ub7v76dVPkr
         Cn8fga8g/n0Mv0qiCzD8CuJXEF2BgAvO8U+ziQ6HTRDs+Gm3W/kd/gjWZMNdB1ubQ7DbBBuex694hj3o
         fI796hBsdvrX5rDbHGaHYMWN3bHjv8M9++TYSoXxWcaD6rhrhum+ZWHPjpMfP4nVarXZLPxz//LxTwOR
@@ -331,8 +331,8 @@
   <data name="pictureBox1.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAGwAAABmCAIAAAChn+P8AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEgAA
-        CxIB0t1+/AAAK2FJREFUeF7tffd7U1eXbuZvuz/M3EnARXLDXe7wESAJkECooblXiqt6sS333nGvuHeM
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDwAA
+        Cw8BkvkDpQAAK2FJREFUeF7tffd7U1eXbuZvuz/M3EnARXLDXe7wESAJkECooblXiqt6sS333nGvuHeM
         CzYGjCtu6mfetfeRMZlk5j6JuB98DyeKkVWOtN+z+nrX9r8JgvDN1+NvIgAQvx5/E4Fv/ub7v76dVPkr
         Cn8fga8g/n0Mv0qiCzD8CuJXEF2BgAvO8U+ziQ6HTRDs+Gm3W/kd/gjWZMNdB1ubQ7DbBBuex694hj3o
         fI796hBsdvrX5rDbHGaHYMWN3bHjv8M9++TYSoXxWcaD6rhrhum+ZWHPjpMfP4nVarXZLPxz//LxTwOR
