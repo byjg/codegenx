@@ -276,6 +276,7 @@ class <xsl:value-of select="$ClassName" />DB extends <xsl:value-of select="$pack
 			<xsl:when test="contains($sqltype, 'int')">SQLFieldType::Number</xsl:when>
 			<xsl:when test="contains($sqltype, 'number')">SQLFieldType::Number</xsl:when>
 			<xsl:when test="contains($sqltype, 'decimal')">SQLFieldType::Number</xsl:when>
+			<xsl:when test="contains($sqltype, 'numeric')">SQLFieldType::Number</xsl:when>
 			<!--<xsl:when test="contains($sqltype, 'date')">SQLFieldType::Date</xsl:when>-->
 			<xsl:otherwise>SQLFieldType::Text</xsl:otherwise>
 		</xsl:choose>

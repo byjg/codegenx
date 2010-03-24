@@ -97,6 +97,20 @@ namespace CodeGenX
             lblXml.Text = "";
             lstXsl.Items.Clear();
             lstXsl.Sorted = true;
+			
+			string[] args = Environment.GetCommandLineArgs();
+
+			if (args.Length > 1)
+			{
+				if (System.IO.File.Exists(args[1]))
+				{
+					this.LoadProject(args[1]);
+				}
+				else
+				{
+					MessageBox.Show("I can't open project " + args[1]);
+				}
+			}
         }
 
         private void lstXsl_Click(object sender, EventArgs e)
@@ -196,44 +210,49 @@ namespace CodeGenX
         {
             if (dlgOpenProject.ShowDialog() == DialogResult.OK)
             {
-                this.NewProject();
-
-                XmlDocument document = new XmlDocument();
-                document.Load(dlgOpenProject.FileName);
-                XmlNode generator = document.DocumentElement;
-
-				string baseDir = System.IO.Path.GetDirectoryName(dlgOpenProject.FileName);
-
-                // Load Torque XML
-                XmlNode torque = generator.SelectSingleNode("torqueXml");
-                if (torque != null)
-                {
-                    this.LoadXmlTables(this.GetAbsolutePath(baseDir, torque.InnerText));
-                }
-
-                // Load XSL
-                XmlNodeList xslList = generator.SelectNodes("xsl/item");
-                foreach (XmlNode node in xslList)
-                {
-                    lstXsl.Items.Add(this.GetAbsolutePath(baseDir, node.Attributes["name"].Value));
-                }
-
-                // Load Extra Properties
-                XmlNode extra = generator.SelectSingleNode("extraProperties");
-                if (extra != null)
-                {
-                    this.LoadExtraProperties(this.GetAbsolutePath(baseDir, extra.InnerText));
-                }
-
-                // Load SaveTo
-                XmlNode saveTo = generator.SelectSingleNode("saveTo");
-                if (saveTo != null)
-                {
-                    txtSaveTo.Text = this.GetAbsolutePath(baseDir, saveTo.InnerText);
-                }
+				this.LoadProject(dlgOpenProject.FileName);
             }
 
         }
+		
+		private void LoadProject(string fileName)
+		{
+            this.NewProject();
+
+            XmlDocument document = new XmlDocument();
+            document.Load(fileName);
+            XmlNode generator = document.DocumentElement;
+
+			string baseDir = System.IO.Path.GetDirectoryName(fileName);
+
+            // Load Torque XML
+            XmlNode torque = generator.SelectSingleNode("torqueXml");
+            if (torque != null)
+            {
+                this.LoadXmlTables(this.GetAbsolutePath(baseDir, torque.InnerText));
+            }
+
+            // Load XSL
+            XmlNodeList xslList = generator.SelectNodes("xsl/item");
+            foreach (XmlNode node in xslList)
+            {
+                lstXsl.Items.Add(this.GetAbsolutePath(baseDir, node.Attributes["name"].Value));
+            }
+
+            // Load Extra Properties
+            XmlNode extra = generator.SelectSingleNode("extraProperties");
+            if (extra != null)
+            {
+                this.LoadExtraProperties(this.GetAbsolutePath(baseDir, extra.InnerText));
+            }
+
+            // Load SaveTo
+            XmlNode saveTo = generator.SelectSingleNode("saveTo");
+            if (saveTo != null)
+            {
+                txtSaveTo.Text = this.GetAbsolutePath(baseDir, saveTo.InnerText);
+            }
+		}
 
 		private string GetAbsolutePath(string baseDir, string path)
 		{
