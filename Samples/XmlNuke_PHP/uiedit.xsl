@@ -181,6 +181,20 @@ class <xsl:value-of select="$ClassName" />UIEdit extends <xsl:value-of select="$
 		return $obj;
 	}
 	</xsl:if>
+	<xsl:if test="@type='text'">
+	/**
+	 * Obter um Memo de <xsl:value-of select="$FieldName" />
+	 * @param bool $readonly
+	 * @return XmlInputMemo
+	 */
+	public function memo<xsl:value-of select="$FieldName" />($readonly = false)
+	{
+		$obj = new XmlInputMemo($this->_myWords->Value("<xsl:value-of select="$FieldUpper" />"), <xsl:value-of select="$ClassName" />Model::<xsl:value-of select="$FieldUpper" />, $this->_model->get<xsl:value-of select="$FieldName" />());
+		$obj->setReadOnly($readonly);
+
+		return $obj;
+	}
+	</xsl:if>
 	/**
 	 * Obter um ProcessPageStateField de <xsl:value-of select="$FieldName" />
 	 * @param bool $visible
@@ -241,11 +255,16 @@ class <xsl:value-of select="$ClassName" />UIEdit extends <xsl:value-of select="$
 	 * Obter um EasyList de <xsl:value-of select="$FieldName" />
 	 * @param array $array
 	 * @param bool $readonly
+	 * @param EasyListType $listType
 	 * @return XmlEasyList
 	 */
-	public function easyList<xsl:value-of select="$FieldName" />($array, $readonly = false)
+	public function easyList<xsl:value-of select="$FieldName" />($array, $readonly = false, $listType = null)
 	{
-		$obj = new XmlEasyList(EasyListType::SELECTLIST, <xsl:value-of select="$ClassName" />Model::<xsl:value-of select="$FieldUpper" />, $this->_myWords->Value("<xsl:value-of select="$FieldUpper" />"), $array, $this->_model->get<xsl:value-of select="$FieldName" />());
+		if ($listType == null)
+		{
+			$listType = EasyListType::SELECTLIST;
+		}
+		$obj = new XmlEasyList($listType, <xsl:value-of select="$ClassName" />Model::<xsl:value-of select="$FieldUpper" />, $this->_myWords->Value("<xsl:value-of select="$FieldUpper" />"), $array, $this->_model->get<xsl:value-of select="$FieldName" />());
 		$obj->setReadOnlyDelimeters($this->getReadonlyDelimiter());
 		$obj->setReadOnly($readonly);
 		<xsl:if test="//table[@name=$tablename]/column[@name=$Field]/@required='true'">$obj->setRequired(true);</xsl:if>
