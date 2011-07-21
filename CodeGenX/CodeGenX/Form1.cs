@@ -256,7 +256,7 @@ namespace CodeGenX
 
 		private string GetAbsolutePath(string baseDir, string path)
 		{
-			if ((path[1] == ':') || (path[0] == '/'))
+			if (!String.IsNullOrEmpty(path) && ((path[1] == ':') || (path[0] == '/')))
 				return path;
 			else
 			{

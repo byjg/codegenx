@@ -28,7 +28,8 @@
 
 //{@@@[//CustomInclude
 //CustomInclude]}@@@
-class <xsl:value-of select="$ClassName" />Model extends <xsl:value-of select="$package" />BaseModel
+
+class <xsl:value-of select="$ClassName" />Model extends <xsl:value-of select="$package" />BaseModel
 {
 
 	const __TABLENAME__ = '<xsl:value-of select="$tablename" />';
