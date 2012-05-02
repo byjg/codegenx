@@ -29,6 +29,9 @@
 //{@@@[//CustomInclude
 //CustomInclude]}@@@
 
+/**
+ * @Xmlnuke:NodeName <xsl:value-of select="$tablename" />
+ */
 class <xsl:value-of select="$ClassName" />Model extends <xsl:value-of select="$package" />BaseModel
 {
 
