@@ -56,9 +56,9 @@ class <xsl:value-of select="$ClassName" />UIEdit extends <xsl:value-of select="$
 	 * @param LanguageCollection $myWords
 	 * @param <xsl:value-of select="$ClassName" />Model $model
 	 */
-	public function __construct($context, $model = null, $myWords = null)
+	public function __construct($model = null, $myWords = null)
 	{
-		$this->_context = $context;
+		$this->_context = Context::getInstance();
 		$this->_dateFormat = $this->_context->Language()->getDateFormat();
 		
 		if ($myWords == null)

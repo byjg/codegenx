@@ -35,9 +35,9 @@ class <xsl:value-of select="$ClassName" />DB extends <xsl:value-of select="$pack
 	 * Construtor
 	 * @param Context $context
 	 */
-	public function __construct($context)
+	public function __construct()
 	{
-		parent::__construct($context);
+		parent::__construct(Context::getInstance());
 	}
 	
 	////// Primary Keys ///////////////////////////////////////////////
