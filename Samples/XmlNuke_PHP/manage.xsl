@@ -68,7 +68,7 @@ class <xsl:value-of select="$ClassName" /> extends <xsl:value-of select="$extend
 
 
 	/**
-	 * Usar o ProcessPageState para gerenciar a edição de uma tabela.
+	 * Usar o XmlnukeCrud para gerenciar a edição de uma tabela.
 	 */
 	public function Edit<xsl:value-of select="$ClassName" />()
 	{
@@ -83,7 +83,7 @@ class <xsl:value-of select="$ClassName" /> extends <xsl:value-of select="$extend
 
 		$uiedit = new <xsl:value-of select="$ClassName" />UIEdit($this->_context);
 
-		$fields = new ProcessPageFields();
+		$fields = new CrudFieldCollection();
 		<xsl:for-each select="column">
 			<xsl:variable name="FieldName">
 				<xsl:call-template name="upperCase">
@@ -93,11 +93,11 @@ class <xsl:value-of select="$ClassName" /> extends <xsl:value-of select="$extend
 			<xsl:variable name="FieldUpper">
 				<xsl:value-of select="translate(@name, '&lower;', '&upper;')" />
 			</xsl:variable>			
-		$field = $uiedit->processField<xsl:value-of select="$FieldName" />();
-		$fields->addProcessPageField($field);
+		$field = $uiedit->crudField<xsl:value-of select="$FieldName" />();
+		$fields->addCrudField($field);
 		</xsl:for-each>
 		
-		$process = new ProcessPageStateDB
+		$crud = new XmlnukeCrudDB
 		(
 			$this->_context, 
 			$fields, 
@@ -107,7 +107,7 @@ class <xsl:value-of select="$ClassName" /> extends <xsl:value-of select="$extend
 			'<xsl:value-of select="@name" />', 
 			<xsl:value-of select="$ClassName" />DB::DataBaseName()
 		);
-		$process->setPermissions(true, false, true, true);
+		$crud->setPermissions(true, false, true, true);
 		$block->addXmlnukeObject($process);
 	}
 }

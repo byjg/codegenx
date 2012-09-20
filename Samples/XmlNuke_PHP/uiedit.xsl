@@ -196,15 +196,15 @@ class <xsl:value-of select="$ClassName" />UIEdit extends <xsl:value-of select="$
 	}
 	</xsl:if>
 	/**
-	 * Obter um ProcessPageStateField de <xsl:value-of select="$FieldName" />
+	 * Obter um CrudField de <xsl:value-of select="$FieldName" />
 	 * @param bool $visible
 	 * @param bool $required
 	 * @param integer $viewSize
-	 * @return ProcessPageField
+	 * @return CrudField
 	 */
-	public function processField<xsl:value-of select="$FieldName" />($visible = true, $required = <xsl:if test="@required='true'">true</xsl:if><xsl:if test="not(@required='true')">false</xsl:if>, $viewSize = <xsl:value-of select="$ViewSize" />)
+	public function crudField<xsl:value-of select="$FieldName" />($visible = true, $required = <xsl:if test="@required='true'">true</xsl:if><xsl:if test="not(@required='true')">false</xsl:if>, $viewSize = <xsl:value-of select="$ViewSize" />)
 	{
-		$field = ProcessPageFields::FactoryMinimal("<xsl:value-of select="@name" />", $this->_myWords->Value("<xsl:value-of select="$FieldUpper" />"), $viewSize, $visible, $required);
+		$field = CrudField::FactoryMinimal("<xsl:value-of select="@name" />", $this->_myWords->Value("<xsl:value-of select="$FieldUpper" />"), $viewSize, $visible, $required);
 		<xsl:if test="@primaryKey and @primaryKey='true'">$field->key = true;
 		</xsl:if>
 		<xsl:if test="@autoIncrement and @autoIncrement='true'">$field->editable = false;
