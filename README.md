@@ -72,7 +72,7 @@ This is a suggestion. You can use any XSL you want.
 
 Here you can see how you can handle the Torque XML file:
 
-````PHP
+````XSLT
 class <xsl:value-of select="$tablename">
 {
 	<xsl:for-each select="column">
