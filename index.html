@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>CodeGenX by byjg</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>CodeGenX</h1>
+        <h2>Code generator highly flexible and extensible based on Torque XML and XSL transformations</h2>
+        <a href="https://github.com/byjg/codegenx" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="codegenx" class="anchor" href="#codegenx"><span class="octicon octicon-link"></span></a>CodeGenX</h1>
+
+<p>Code generator highly flexible and extensible based on Torque XML and XSL transformations</p>
+
+<h2>
+<a name="introducing-to-codegenx" class="anchor" href="#introducing-to-codegenx"><span class="octicon octicon-link"></span></a>Introducing to CodeGenX</h2>
+
+<p>CodeGenX is a Code generator highly flexible and extensible based on Torque XML and XSL transformations. You virtually can generate code targeted to any programming language just using your own XSL template.</p>
+
+<h2>
+<a name="some-codegenx-features" class="anchor" href="#some-codegenx-features"><span class="octicon octicon-link"></span></a>Some CodeGenX features</h2>
+
+<ul>
+<li>Generate a single file from each table in Torque XML</li>
+<li>Custom code added by user are not replaced when the CodeGenX generate the file again</li>
+<li>Custom parameters for each table</li>
+<li>Save a project for you codegen</li>
+<li>Very fast!</li>
+<li>Lightweight</li>
+<li>Run in Windows (.NET) or Linux (Mono)</li>
+</ul><h2>
+<a name="generate-code-with-codegenx" class="anchor" href="#generate-code-with-codegenx"><span class="octicon octicon-link"></span></a>Generate code with CodeGenX</h2>
+
+<p>The first step is create a Torque XML. You can create your own XML file or you can use a tool to do this for you. We recommend Druid. Druid from Sourceforge is a database modeling tool and it have some specific features like generate a documentation from your database and export to Torque XML file. But if you know any other tool, let me know. The Torque XML will be like this:</p>
+
+<div class="highlight"><pre><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+
+<span class="nt">&lt;database</span> <span class="na">name=</span><span class="s">"mydatabase"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;table</span> <span class="na">name=</span><span class="s">"mytable"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;column</span> <span class="na">name=</span><span class="s">"id"</span> <span class="na">primaryKey=</span><span class="s">"true"</span> <span class="na">required=</span><span class="s">"true"</span> <span class="na">type=</span><span class="s">"int"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;column</span> <span class="na">name=</span><span class="s">"title"</span> <span class="na">required=</span><span class="s">"true"</span> <span class="na">type=</span><span class="s">"varchar"</span> <span class="na">size=</span><span class="s">"30"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/table&gt;</span>
+<span class="nt">&lt;/database&gt;</span>
+</pre></div>
+
+<p>After that, you have to create a XSL file. We know XSL is not a user friendly language, but it is powerful to transform a XML in any other thing you want. To make the things easier we recommend you create a XSL using the model below:</p>
+
+<div class="highlight"><pre><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+
+<span class="cp">&lt;!DOCTYPE xsl:stylesheet [</span>
+<span class="cp">    &lt;!ENTITY lower "abcdefghijklmnopqrstuvwxyz"&gt;</span>
+    <span class="cp">&lt;!ENTITY upper "ABCDEFGHIJKLMNOPQRSTUVWXYZ"&gt;</span>
+]&gt;
+
+<span class="k">&lt;xsl:stylesheet</span> <span class="na">version=</span><span class="s">"1.0"</span> <span class="na">xmlns:xsl=</span><span class="s">"http://www.w3.org/1999/XSL/Transform"</span>
+    <span class="na">xmlns:msxsl=</span><span class="s">"urn:schemas-microsoft-com:xslt"</span> <span class="na">exclude-result-prefixes=</span><span class="s">"msxsl"</span><span class="nt">&gt;</span>
+
+    <span class="k">&lt;xsl:param</span> <span class="na">name=</span><span class="s">"tablename"</span><span class="nt">&gt;</span><span class="k">&lt;/xsl:param&gt;</span>
+    <span class="k">&lt;xsl:param</span> <span class="na">name=</span><span class="s">"package"</span><span class="nt">&gt;</span><span class="k">&lt;/xsl:param&gt;</span>
+
+    <span class="k">&lt;xsl:output</span> <span class="na">method=</span><span class="s">"text"</span><span class="nt">/&gt;</span>
+
+    <span class="k">&lt;xsl:template</span> <span class="na">match=</span><span class="s">"database"</span><span class="nt">&gt;</span>
+
+        <span class="k">&lt;xsl:for-each</span> <span class="na">select=</span><span class="s">"table[@name=$tablename]"</span><span class="nt">&gt;</span>
+
+        <span class="c">&lt;!-- START: PUT YOUR CODE HERE --&gt;</span>
+
+        <span class="c">&lt;!-- END: PUT YOUR CODE HERE --&gt;</span>
+
+        <span class="k">&lt;/xsl:for-each&gt;</span>
+
+    <span class="k">&lt;/xsl:template&gt;</span>
+
+    <span class="c">&lt;!-- PUT YOUR XSL FUNCTION HERE! --&gt;</span>
+
+<span class="k">&lt;/xsl:stylesheet&gt;</span>
+</pre></div>
+
+<p>This is a suggestion. You can use any XSL you want.</p>
+
+<p>Here you can see how you can handle the Torque XML file:</p>
+
+<div class="highlight"><pre>class <span class="k">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">"$tablename"</span><span class="nt">&gt;</span>
+{
+    <span class="k">&lt;xsl:for-each</span> <span class="na">select=</span><span class="s">"column"</span><span class="nt">&gt;</span>
+    protected $_<span class="k">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">"@name"</span><span class="nt">&gt;</span>;
+
+    public get<span class="k">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">"@name"</span><span class="nt">&gt;</span>()
+    {
+        return $this-&gt;_<span class="k">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">"@name"</span><span class="nt">&gt;</span>;
+    }
+    public set<span class="k">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">"@name"</span><span class="nt">&gt;</span>($value)
+    {
+        $this-&gt;_<span class="k">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">"@name"</span><span class="nt">&gt;</span> = $value;
+    }
+    <span class="k">&lt;/xsl:for-each&gt;</span>
+}
+</pre></div>
+
+<p>and the result code will be:</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">mytable</span>
+<span class="p">{</span>
+    <span class="k">protected</span> <span class="nv">$_id</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nx">getid</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_id</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">public</span> <span class="nx">setid</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_id</span> <span class="o">=</span> <span class="nv">$value</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">protected</span> <span class="nv">$_title</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nx">gettitle</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_title</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">public</span> <span class="nx">settitle</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_title</span> <span class="o">=</span> <span class="nv">$value</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/byjg/codegenx/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/byjg/codegenx/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/byjg/codegenx"></a> is maintained by <a href="https://github.com/byjg">byjg</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-874486-5");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
