@@ -1,8 +1,5 @@
-ifndef TARGET
-	error You must provide TARGET when making
-endif
-
 CSC=gmcs
+RESX=resgen
 
 ifdef RELEASE
 CSCFLAGS=/nologo /optimize+ /d:TRACE
@@ -24,9 +21,15 @@ CODEGENX_SRC=CodeGenX/Classes/BaseXML.cs \
 	CodeGenX/Properties/AssemblyInfo.cs \
 	CodeGenX/Classes/Platform.cs
 
-$(CODEGENX_EXE): $(CODEGENX_SRC)
-	mkdir -p $(TARGET)/bin
-	$(CSC) $(CSCFLAGS) /r:System.dll /r:System.Data.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /r:System.Xml.dll /target:winexe /out:$(CODEGENX_EXE) $(CODEGENX_SRC)
+CodeGenX/Form1.resources: CodeGenX/Form1.resx
+	$(RESX) /compile $< 
+
+CodeGenX/Form2.resources: CodeGenX/Form2.resx
+	$(RESX) /compile $< 
+
+$(CODEGENX_EXE): CodeGenX/Form1.resources CodeGenX/Form2.resources $(CODEGENX_SRC)
+	mkdir -p $(TARGET)/bin 
+	$(CSC) $(CSCFLAGS) /r:System.dll /r:System.Data.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /r:System.Xml.dll /target:winexe /res:CodeGenX/Form1.resources,CodeGenx/Form2.resources /out:$(CODEGENX_EXE) $(CODEGENX_SRC)
 
 
 
