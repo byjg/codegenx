@@ -96,7 +96,6 @@ namespace CodeGenX
 
 		#endregion
 
-
 		protected void ProcessarThread()
 		{
 			try
@@ -147,7 +146,7 @@ namespace CodeGenX
 								}
 								else
 								{
-									filename = filename.Replace("%classname", className).Replace("%tablename", table).Replace("%xsl", System.IO.Path.GetFileNameWithoutExtension(xslfile));
+									filename = this.ReplaceMacros(filename, className, table, xslfile);
 								}
 								#endregion
 
@@ -160,9 +159,10 @@ namespace CodeGenX
 									Dictionary<string, string> extraPropValues = this._extraProperty.GetPropertyValues(table);
 									foreach (KeyValuePair<string, string> prop in extraPropValues)
 									{
-										xslArg.AddParam(prop.Key, "", prop.Value);
-										newFolder = newFolder.Replace("%" + prop.Key, prop.Value);
-										filename = filename.Replace("%" + prop.Key, prop.Value);
+										string propValue = this.ReplaceMacros(prop.Value, className, table, xslfile);
+										xslArg.AddParam(prop.Key, "", propValue);
+										newFolder = newFolder.Replace("%" + prop.Key, propValue);
+										filename = filename.Replace("%" + prop.Key, propValue);
 									}
 								}
 								#endregion
@@ -170,7 +170,7 @@ namespace CodeGenX
 								// Create Destination Directory
 								if (!String.IsNullOrEmpty(newFolder))
 								{
-									newFolder = newFolder.Replace("%classname", className).Replace("%tablename", table).Replace("%xsl", System.IO.Path.GetFileNameWithoutExtension(xslfile));
+									newFolder = this.ReplaceMacros(newFolder, className, table, xslfile);
 									newFolder = Platform.FixPath(newFolder);
 									System.IO.Directory.CreateDirectory(this._saveTo + newFolder);
 									newFolder += Platform.Slash();
@@ -252,5 +252,15 @@ namespace CodeGenX
         {
             this._parentForm.Enabled = true;
         }
+
+		private string ReplaceMacros (string Str, string className, string table, string xslfile)
+		{
+			return Str.Replace("%classname", className)
+						.Replace("%tablename", table)
+						.Replace("%TableName", Regex.Replace(table.Replace('_', ' '), @"\b(\w)", m => m.Value.ToUpper()).Replace(" ", ""))
+						.Replace("%Table_Name", Regex.Replace(table.Replace('_', ' '), @"\b(\w)", m => m.Value.ToUpper()).Replace(" ", "_"))
+						.Replace("%xsl", System.IO.Path.GetFileNameWithoutExtension(xslfile));
+		}
+
     }
 }
