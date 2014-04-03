@@ -189,7 +189,9 @@ namespace CodeGenX
 									string basePatternSuffix = @"\s*(\k<delimiter>)\]\}@@@";
 									string prefix = @"[\w\d/\-]+";
 
-									string oldContent = System.IO.File.ReadAllText(fullFilename);
+									// I dont know why "$_" inside the replaceable text causes a bug in RegEx.Replace
+									// I have to replace it for another char and later before save it, restore it
+									string oldContent = System.IO.File.ReadAllText(fullFilename).Replace("$_", "[$][_]");
 									Regex regexOld = new Regex("(?<all>" + basePatternPrefix.Replace("%%", prefix) + @"(?<text>[\w\d\s.""\r\n':;\{\}\[\]\(\)\+\-\*!@#$%^&<>,\?~`_|\\\/=]*)" + basePatternSuffix + ")");
 									MatchCollection mcOld = regexOld.Matches(oldContent);
 
@@ -202,7 +204,7 @@ namespace CodeGenX
 								}
 
 								// Save File
-								System.IO.File.WriteAllText(fullFilename, result);
+								System.IO.File.WriteAllText(fullFilename, result.Replace("[$][_]", "$_"));
 								this.threadSafeUpdateProgress();
 
 								if (this._stop) break;
