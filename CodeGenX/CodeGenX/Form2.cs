@@ -189,9 +189,13 @@ namespace CodeGenX
 									string basePatternSuffix = @"\s*(\k<delimiter>)\]\}@@@";
 									string prefix = @"[\w\d/\-]+";
 
-									// I dont know why "$_" inside the replaceable text causes a bug in RegEx.Replace
-									// I have to replace it for another char and later before save it, restore it
-									string oldContent = System.IO.File.ReadAllText(fullFilename).Replace("$_", "[$][_]");
+									string oldContent = System.IO.File.ReadAllText(fullFilename);
+
+									// There are some special chars when you do substitutions. We have to scape it.
+									// http://msdn.microsoft.com/en-us/library/ewy2t5e0(v=vs.110).aspx
+									Regex fixSpecialChar = new Regex(@"\$([\{0-9`'\+_])");
+									oldContent = fixSpecialChar.Replace(oldContent, @"$$$$$1");
+
 									Regex regexOld = new Regex("(?<all>" + basePatternPrefix.Replace("%%", prefix) + @"(?<text>[\w\d\s.""\r\n':;\{\}\[\]\(\)\+\-\*!@#$%^&<>,\?~`_|\\\/=]*)" + basePatternSuffix + ")");
 									MatchCollection mcOld = regexOld.Matches(oldContent);
 
@@ -199,12 +203,11 @@ namespace CodeGenX
 									{
 										Regex regexNew = new Regex("(?<all>" + basePatternPrefix.Replace("%%", match.Groups["delimiter"].Value) + basePatternSuffix + ")");
 										result = regexNew.Replace(result, match.Groups["all"].Value);
-										//result.Replace("{@@@[" + match.Groups["delimiter"].Value + "\r\n"
 									}
 								}
 
 								// Save File
-								System.IO.File.WriteAllText(fullFilename, result.Replace("[$][_]", "$_"));
+								System.IO.File.WriteAllText(fullFilename, result);
 								this.threadSafeUpdateProgress();
 
 								if (this._stop) break;
